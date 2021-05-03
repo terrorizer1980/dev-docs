@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>libbottles.bottle API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>libbottles.bottle</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import json
+from glob import glob
+from random import seed, randint
+from libbottles.components.runner import Runner
+from libbottles import globals
+
+from libwine.wine import Wine
+seed(1)
+
+
+class Bottle:
+    &#39;&#39;&#39;
+    Create a new object of type Bottle with all the methods for its management.
+
+    Parameters
+    ----------
+    path : str
+        the bottle full path
+    &#39;&#39;&#39;
+    config = {}
+    _config_struct = {
+        &#34;Name&#34;: &#34;&#34;,
+        &#34;Runner&#34;: &#34;&#34;,
+        &#34;DXVK&#34;: &#34;&#34;,
+        &#34;Path&#34;: &#34;&#34;,
+        &#34;Environment&#34;: 2,
+        &#34;Creation_Date&#34;: &#34;&#34;,
+        &#34;Update_Date&#34;: &#34;&#34;,
+        &#34;Versioning&#34;: False,
+        &#34;State&#34;: 0,
+        &#34;Verbose&#34;: 0,
+        &#34;Parameters&#34;: {
+            &#34;dxvk&#34;: False,
+            &#34;dxvk_hud&#34;: False,
+            &#34;sync&#34;: &#34;wine&#34;,
+            &#34;aco_compiler&#34;: False,
+            &#34;discrete_gpu&#34;: False,
+            &#34;virtual_desktop&#34;: False,
+            &#34;virtual_desktop_res&#34;: &#34;1280x720&#34;,
+            &#34;pulseaudio_latency&#34;: False,
+            &#34;environment_variables&#34;: &#34;&#34;,
+        },
+        &#34;Installed_Dependencies&#34;: [],
+        &#34;DLL_Overrides&#34;: {},
+        &#34;Programs&#34;: {}
+    }
+    _environments = [
+        {
+            &#34;Name&#34;: &#34;Software&#34;,
+            &#34;Parameters&#34;: {
+                &#34;dxvk&#34;: True
+            }
+        },
+        {
+            &#34;Name&#34;: &#34;Gaming&#34;,
+            &#34;Parameters&#34;: {
+                &#34;dxvk&#34;: True,
+                &#34;sync&#34;: &#34;esync&#34;,
+                &#34;discrete_gpu&#34;: True,
+                &#34;pulseaudio_latency&#34;: True
+            }
+        },
+        {
+            &#34;Name&#34;: &#34;Custom&#34;,
+            &#34;Parameters&#34;: {}
+        }
+    ]
+    wineprefix = object
+
+    def __init__(
+            self,
+            path: str,
+            create: bool = False,
+            env: int = 3,
+            name: str = None,
+            runner_path: str = None,
+            verbose: int = 0,
+            versioning: bool = False):
+
+        if not create:
+            self.__validate(path)
+            self.__load_config(path)
+            self.__set_wineprefix(runner_path)
+        else:
+            self.config = {
+                &#34;Path&#34;: path,
+                &#34;Name&#34;: name,
+                &#34;Runner&#34;: runner_path,
+                &#34;Environment&#34;: env,
+                &#34;Verbose&#34;: verbose,
+                &#34;Versioning&#34;: versioning
+            }
+            self.__set_wineprefix(runner_path)
+            self.wineprefix.update()
+            self.__load_config(path)
+
+            self.apply_environment(env)
+
+    &#39;&#39;&#39;
+    Bottle checks
+    &#39;&#39;&#39;
+
+    @staticmethod
+    def __validate(path):
+        &#39;&#39;&#39;
+        Check if essential paths exist in path.
+
+        Parameters
+        ----------
+        path : str
+            the bottle full path
+        &#39;&#39;&#39;
+        promise = [&#34;dosdevices&#34;, &#34;drive_c&#34;]
+
+        dirs = glob(f&#34;{path}/*&#34;)
+        dirs = [d.replace(f&#34;{path}/&#34;, &#34;&#34;) for d in dirs]
+
+        for p in promise:
+            if p not in dirs:
+                raise ValueError(
+                    &#34;Given path doesn&#39;t seem a valid Bottle path.&#34;)
+        return True
+
+    def __load_config(self, path):
+        &#39;&#39;&#39;
+        Load config from path, if doesn&#39;t exists then create.
+        Also update config structure if outdated.
+
+        Parameters
+        ----------
+        path : str
+            the bottle full path
+        &#39;&#39;&#39;
+        try:
+            file = open(f&#34;{path}/bottle.json&#34;)
+            self.config = json.load(file)
+            file.close()
+        except FileNotFoundError:
+            file = open(f&#34;{path}/bottle.json&#34;, &#34;w&#34;)
+
+            if len(self.config) == 0:
+                config = self._config_struct
+                config[&#34;Name&#34;] = f&#34;Generated {randint(10000, 20000)}&#34;
+                config[&#34;Path&#34;] = path
+                # TODO: set runner to latest installed
+
+                json.dump(config, file, indent=4)
+                self.config = json.load(file)
+            else:
+                config = self.config
+                json.dump(config, file, indent=4)
+
+            file.close()
+
+        &#39;&#39;&#39;
+        Check for diffs. between _config_struct and the bottle one, then update.
+        &#39;&#39;&#39;
+        missing_keys = self._config_struct.keys() - self.config.keys()
+        for key in missing_keys:
+            self.update_config(
+                key=key,
+                value=self._config_struct[key]
+            )
+
+        missing_keys = (
+            self._config_struct[&#34;Parameters&#34;].keys() -
+            self.config[&#34;Parameters&#34;].keys()
+        )
+        for key in missing_keys:
+            self.update_config(
+                key=key,
+                value=self._config_struct[&#34;Parameters&#34;][key],
+                scope=&#34;Parameters&#34;
+            )
+
+    &#39;&#39;&#39;
+    Wineprefix instance
+    &#39;&#39;&#39;
+
+    def __set_wineprefix(self, runner_path: str = None):
+        if not runner_path:
+            runner_path = self.config[&#34;Runner&#34;]
+
+        self.wineprefix = Wine(
+            winepath=runner_path,
+            wineprefix=self.config[&#34;Path&#34;],
+            verbose=self.config[&#34;Verbose&#34;]
+        )
+
+    &#39;&#39;&#39;
+    Bottle config tools
+    &#39;&#39;&#39;
+
+    def apply_environment(self, environment: int):
+        if not self._environments[environment]:
+            raise ValueError(f&#34;{environment} is not a valid environment.&#34;)
+
+        self.update_config(
+            key=&#34;Environment&#34;,
+            value=environment
+        )
+        # TODO: work in progress
+        return
+
+    def apply_config(self, config: dict):
+        for key, value in config.items():
+            self.update_config(
+                key=key,
+                value=value
+            )
+
+    def update_config(
+            self,
+            key: str = None,
+            value: str = None,
+            scope: str = None):
+        &#39;&#39;&#39;
+        Update keys for a bottle config.
+
+        Parameters
+        ----------
+        key : str
+            the key namet
+        value : str
+            the value to be sett
+        scope : str (optional)
+            where to look for the key if it is not the root (default is None)
+        &#39;&#39;&#39;
+        if scope is not None:
+            self.config[scope][key] = value
+        else:
+            self.config[key] = value
+
+        file = open(
+            f&#34;{self.config[&#39;Path&#39;]}/bottle.json&#34;, &#34;w&#34;)
+        json.dump(self.config, file, indent=4)
+        file.close()
+
+    &#39;&#39;&#39;
+    Bottle management
+    &#39;&#39;&#39;</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="libbottles.bottle.Bottle"><code class="flex name class">
+<span>class <span class="ident">Bottle</span></span>
+<span>(</span><span>path: str, create: bool = False, env: int = 3, name: str = None, runner_path: str = None, verbose: int = 0, versioning: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new object of type Bottle with all the methods for its management.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>the bottle full path</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Bottle:
+    &#39;&#39;&#39;
+    Create a new object of type Bottle with all the methods for its management.
+
+    Parameters
+    ----------
+    path : str
+        the bottle full path
+    &#39;&#39;&#39;
+    config = {}
+    _config_struct = {
+        &#34;Name&#34;: &#34;&#34;,
+        &#34;Runner&#34;: &#34;&#34;,
+        &#34;DXVK&#34;: &#34;&#34;,
+        &#34;Path&#34;: &#34;&#34;,
+        &#34;Environment&#34;: 2,
+        &#34;Creation_Date&#34;: &#34;&#34;,
+        &#34;Update_Date&#34;: &#34;&#34;,
+        &#34;Versioning&#34;: False,
+        &#34;State&#34;: 0,
+        &#34;Verbose&#34;: 0,
+        &#34;Parameters&#34;: {
+            &#34;dxvk&#34;: False,
+            &#34;dxvk_hud&#34;: False,
+            &#34;sync&#34;: &#34;wine&#34;,
+            &#34;aco_compiler&#34;: False,
+            &#34;discrete_gpu&#34;: False,
+            &#34;virtual_desktop&#34;: False,
+            &#34;virtual_desktop_res&#34;: &#34;1280x720&#34;,
+            &#34;pulseaudio_latency&#34;: False,
+            &#34;environment_variables&#34;: &#34;&#34;,
+        },
+        &#34;Installed_Dependencies&#34;: [],
+        &#34;DLL_Overrides&#34;: {},
+        &#34;Programs&#34;: {}
+    }
+    _environments = [
+        {
+            &#34;Name&#34;: &#34;Software&#34;,
+            &#34;Parameters&#34;: {
+                &#34;dxvk&#34;: True
+            }
+        },
+        {
+            &#34;Name&#34;: &#34;Gaming&#34;,
+            &#34;Parameters&#34;: {
+                &#34;dxvk&#34;: True,
+                &#34;sync&#34;: &#34;esync&#34;,
+                &#34;discrete_gpu&#34;: True,
+                &#34;pulseaudio_latency&#34;: True
+            }
+        },
+        {
+            &#34;Name&#34;: &#34;Custom&#34;,
+            &#34;Parameters&#34;: {}
+        }
+    ]
+    wineprefix = object
+
+    def __init__(
+            self,
+            path: str,
+            create: bool = False,
+            env: int = 3,
+            name: str = None,
+            runner_path: str = None,
+            verbose: int = 0,
+            versioning: bool = False):
+
+        if not create:
+            self.__validate(path)
+            self.__load_config(path)
+            self.__set_wineprefix(runner_path)
+        else:
+            self.config = {
+                &#34;Path&#34;: path,
+                &#34;Name&#34;: name,
+                &#34;Runner&#34;: runner_path,
+                &#34;Environment&#34;: env,
+                &#34;Verbose&#34;: verbose,
+                &#34;Versioning&#34;: versioning
+            }
+            self.__set_wineprefix(runner_path)
+            self.wineprefix.update()
+            self.__load_config(path)
+
+            self.apply_environment(env)
+
+    &#39;&#39;&#39;
+    Bottle checks
+    &#39;&#39;&#39;
+
+    @staticmethod
+    def __validate(path):
+        &#39;&#39;&#39;
+        Check if essential paths exist in path.
+
+        Parameters
+        ----------
+        path : str
+            the bottle full path
+        &#39;&#39;&#39;
+        promise = [&#34;dosdevices&#34;, &#34;drive_c&#34;]
+
+        dirs = glob(f&#34;{path}/*&#34;)
+        dirs = [d.replace(f&#34;{path}/&#34;, &#34;&#34;) for d in dirs]
+
+        for p in promise:
+            if p not in dirs:
+                raise ValueError(
+                    &#34;Given path doesn&#39;t seem a valid Bottle path.&#34;)
+        return True
+
+    def __load_config(self, path):
+        &#39;&#39;&#39;
+        Load config from path, if doesn&#39;t exists then create.
+        Also update config structure if outdated.
+
+        Parameters
+        ----------
+        path : str
+            the bottle full path
+        &#39;&#39;&#39;
+        try:
+            file = open(f&#34;{path}/bottle.json&#34;)
+            self.config = json.load(file)
+            file.close()
+        except FileNotFoundError:
+            file = open(f&#34;{path}/bottle.json&#34;, &#34;w&#34;)
+
+            if len(self.config) == 0:
+                config = self._config_struct
+                config[&#34;Name&#34;] = f&#34;Generated {randint(10000, 20000)}&#34;
+                config[&#34;Path&#34;] = path
+                # TODO: set runner to latest installed
+
+                json.dump(config, file, indent=4)
+                self.config = json.load(file)
+            else:
+                config = self.config
+                json.dump(config, file, indent=4)
+
+            file.close()
+
+        &#39;&#39;&#39;
+        Check for diffs. between _config_struct and the bottle one, then update.
+        &#39;&#39;&#39;
+        missing_keys = self._config_struct.keys() - self.config.keys()
+        for key in missing_keys:
+            self.update_config(
+                key=key,
+                value=self._config_struct[key]
+            )
+
+        missing_keys = (
+            self._config_struct[&#34;Parameters&#34;].keys() -
+            self.config[&#34;Parameters&#34;].keys()
+        )
+        for key in missing_keys:
+            self.update_config(
+                key=key,
+                value=self._config_struct[&#34;Parameters&#34;][key],
+                scope=&#34;Parameters&#34;
+            )
+
+    &#39;&#39;&#39;
+    Wineprefix instance
+    &#39;&#39;&#39;
+
+    def __set_wineprefix(self, runner_path: str = None):
+        if not runner_path:
+            runner_path = self.config[&#34;Runner&#34;]
+
+        self.wineprefix = Wine(
+            winepath=runner_path,
+            wineprefix=self.config[&#34;Path&#34;],
+            verbose=self.config[&#34;Verbose&#34;]
+        )
+
+    &#39;&#39;&#39;
+    Bottle config tools
+    &#39;&#39;&#39;
+
+    def apply_environment(self, environment: int):
+        if not self._environments[environment]:
+            raise ValueError(f&#34;{environment} is not a valid environment.&#34;)
+
+        self.update_config(
+            key=&#34;Environment&#34;,
+            value=environment
+        )
+        # TODO: work in progress
+        return
+
+    def apply_config(self, config: dict):
+        for key, value in config.items():
+            self.update_config(
+                key=key,
+                value=value
+            )
+
+    def update_config(
+            self,
+            key: str = None,
+            value: str = None,
+            scope: str = None):
+        &#39;&#39;&#39;
+        Update keys for a bottle config.
+
+        Parameters
+        ----------
+        key : str
+            the key namet
+        value : str
+            the value to be sett
+        scope : str (optional)
+            where to look for the key if it is not the root (default is None)
+        &#39;&#39;&#39;
+        if scope is not None:
+            self.config[scope][key] = value
+        else:
+            self.config[key] = value
+
+        file = open(
+            f&#34;{self.config[&#39;Path&#39;]}/bottle.json&#34;, &#34;w&#34;)
+        json.dump(self.config, file, indent=4)
+        file.close()
+
+    &#39;&#39;&#39;
+    Bottle management
+    &#39;&#39;&#39;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="libbottles.bottle.Bottle.config"><code class="name">var <span class="ident">config</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="libbottles.bottle.Bottle.wineprefix"><code class="name">var <span class="ident">wineprefix</span></code></dt>
+<dd>
+<div class="desc"><p>The base class of the class hierarchy.</p>
+<p>When called, it accepts no arguments and returns a new featureless
+instance that has no instance attributes and cannot be given any.</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="libbottles.bottle.Bottle.apply_config"><code class="name flex">
+<span>def <span class="ident">apply_config</span></span>(<span>self, config: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply_config(self, config: dict):
+    for key, value in config.items():
+        self.update_config(
+            key=key,
+            value=value
+        )</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.apply_environment"><code class="name flex">
+<span>def <span class="ident">apply_environment</span></span>(<span>self, environment: int)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply_environment(self, environment: int):
+    if not self._environments[environment]:
+        raise ValueError(f&#34;{environment} is not a valid environment.&#34;)
+
+    self.update_config(
+        key=&#34;Environment&#34;,
+        value=environment
+    )
+    # TODO: work in progress
+    return</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.update_config"><code class="name flex">
+<span>def <span class="ident">update_config</span></span>(<span>self, key: str = None, value: str = None, scope: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update keys for a bottle config.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>the key namet</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>str</code></dt>
+<dd>the value to be sett</dd>
+<dt><strong><code>scope</code></strong> :&ensp;<code>str (optional)</code></dt>
+<dd>where to look for the key if it is not the root (default is None)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_config(
+        self,
+        key: str = None,
+        value: str = None,
+        scope: str = None):
+    &#39;&#39;&#39;
+    Update keys for a bottle config.
+
+    Parameters
+    ----------
+    key : str
+        the key namet
+    value : str
+        the value to be sett
+    scope : str (optional)
+        where to look for the key if it is not the root (default is None)
+    &#39;&#39;&#39;
+    if scope is not None:
+        self.config[scope][key] = value
+    else:
+        self.config[key] = value
+
+    file = open(
+        f&#34;{self.config[&#39;Path&#39;]}/bottle.json&#34;, &#34;w&#34;)
+    json.dump(self.config, file, indent=4)
+    file.close()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="libbottles" href="index.html">libbottles</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="libbottles.bottle.Bottle" href="#libbottles.bottle.Bottle">Bottle</a></code></h4>
+<ul class="">
+<li><code><a title="libbottles.bottle.Bottle.apply_config" href="#libbottles.bottle.Bottle.apply_config">apply_config</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.apply_environment" href="#libbottles.bottle.Bottle.apply_environment">apply_environment</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.config" href="#libbottles.bottle.Bottle.config">config</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.update_config" href="#libbottles.bottle.Bottle.update_config">update_config</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.wineprefix" href="#libbottles.bottle.Bottle.wineprefix">wineprefix</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
