@@ -160,7 +160,7 @@ class Wine:
         &#39;&#39;&#39;
         Check if essential paths exist in winepath.
         &#39;&#39;&#39;
-        promise = [&#34;lib64&#34;, &#34;share&#34;, &#34;bin&#34;, &#34;lib&#34;]
+        promise = [&#34;share&#34;, &#34;bin&#34;, &#34;lib&#34;]
 
         dirs = glob.glob(f&#34;{self._winepath}/*&#34;)
         dirs = [d.replace(f&#34;{self._winepath}/&#34;, &#34;&#34;) for d in dirs]
@@ -211,6 +211,15 @@ class Wine:
 
         return cmd.execute()
 
+    &#39;&#39;&#39;
+    Setters
+    &#39;&#39;&#39;
+    def set_verbose(self, level: int):
+        if level not in self._verbose_levels:
+            raise ValueError(f&#34;{level} is not a valid verbose level.&#34;)
+        else:
+            self._verbose = self._verbose_levels[level]
+    
     &#39;&#39;&#39;
     Wine Tools
     &#39;&#39;&#39;
@@ -909,7 +918,7 @@ class Wine:
         &#39;&#39;&#39;
         Check if essential paths exist in winepath.
         &#39;&#39;&#39;
-        promise = [&#34;lib64&#34;, &#34;share&#34;, &#34;bin&#34;, &#34;lib&#34;]
+        promise = [&#34;share&#34;, &#34;bin&#34;, &#34;lib&#34;]
 
         dirs = glob.glob(f&#34;{self._winepath}/*&#34;)
         dirs = [d.replace(f&#34;{self._winepath}/&#34;, &#34;&#34;) for d in dirs]
@@ -960,6 +969,15 @@ class Wine:
 
         return cmd.execute()
 
+    &#39;&#39;&#39;
+    Setters
+    &#39;&#39;&#39;
+    def set_verbose(self, level: int):
+        if level not in self._verbose_levels:
+            raise ValueError(f&#34;{level} is not a valid verbose level.&#34;)
+        else:
+            self._verbose = self._verbose_levels[level]
+    
     &#39;&#39;&#39;
     Wine Tools
     &#39;&#39;&#39;
@@ -2190,6 +2208,22 @@ dict of environment variables to pass on the execution</p></div>
     )</code></pre>
 </details>
 </dd>
+<dt id="libwine.wine.Wine.set_verbose"><code class="name flex">
+<span>def <span class="ident">set_verbose</span></span>(<span>self, level: int)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_verbose(self, level: int):
+    if level not in self._verbose_levels:
+        raise ValueError(f&#34;{level} is not a valid verbose level.&#34;)
+    else:
+        self._verbose = self._verbose_levels[level]</code></pre>
+</details>
+</dd>
 <dt id="libwine.wine.Wine.set_virtual_desktop"><code class="name flex">
 <span>def <span class="ident">set_virtual_desktop</span></span>(<span>self, status: bool, res: str = None)</span>
 </code></dt>
@@ -2474,6 +2508,7 @@ winxp (Microsoft Windows XP)</dd>
 <li><code><a title="libwine.wine.Wine.set_decorations" href="#libwine.wine.Wine.set_decorations">set_decorations</a></code></li>
 <li><code><a title="libwine.wine.Wine.set_dpi" href="#libwine.wine.Wine.set_dpi">set_dpi</a></code></li>
 <li><code><a title="libwine.wine.Wine.set_fullscreen_mouse_capture" href="#libwine.wine.Wine.set_fullscreen_mouse_capture">set_fullscreen_mouse_capture</a></code></li>
+<li><code><a title="libwine.wine.Wine.set_verbose" href="#libwine.wine.Wine.set_verbose">set_verbose</a></code></li>
 <li><code><a title="libwine.wine.Wine.set_virtual_desktop" href="#libwine.wine.Wine.set_virtual_desktop">set_virtual_desktop</a></code></li>
 <li><code><a title="libwine.wine.Wine.set_window_managed" href="#libwine.wine.Wine.set_window_managed">set_window_managed</a></code></li>
 <li><code><a title="libwine.wine.Wine.set_windows" href="#libwine.wine.Wine.set_windows">set_windows</a></code></li>
