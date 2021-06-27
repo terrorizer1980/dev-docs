@@ -29,22 +29,24 @@
 <pre><code class="python">import json
 from glob import glob
 from random import seed, randint
+from libbottles.utils.checks import check_special_chars
 from libbottles.components.runner import Runner
 from libbottles import globals
 
 from libwine.wine import Wine
+
 seed(1)
 
 
 class Bottle:
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     Create a new object of type Bottle with all the methods for its management.
 
     Parameters
     ----------
     path : str
         the bottle full path
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     config = {}
     _config_struct = {
         &#34;Name&#34;: &#34;&#34;,
@@ -93,6 +95,11 @@ class Bottle:
             &#34;Parameters&#34;: {}
         }
     ]
+    _supported_sync_types = {
+        0: &#34;wine&#34;,
+        1: &#34;esync&#34;,
+        2: &#34;fsync&#34;
+    }
     wineprefix = object
 
     def __init__(
@@ -130,14 +137,14 @@ class Bottle:
 
     @staticmethod
     def __validate(path):
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Check if essential paths exist in path.
 
         Parameters
         ----------
         path : str
             the bottle full path
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         promise = [&#34;dosdevices&#34;, &#34;drive_c&#34;]
 
         dirs = glob(f&#34;{path}/*&#34;)
@@ -145,12 +152,11 @@ class Bottle:
 
         for p in promise:
             if p not in dirs:
-                raise ValueError(
-                    &#34;Given path doesn&#39;t seem a valid Bottle path.&#34;)
+                raise ValueError(&#34;Given path doesn&#39;t seem a valid Bottle path.&#34;)
         return True
 
     def __load_config(self, path):
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Load config from path, if doesn&#39;t exists then create.
         Also update config structure if outdated.
 
@@ -158,7 +164,7 @@ class Bottle:
         ----------
         path : str
             the bottle full path
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         try:
             file = open(f&#34;{path}/bottle.json&#34;)
             self.config = json.load(file)
@@ -191,8 +197,8 @@ class Bottle:
             )
 
         missing_keys = (
-            self._config_struct[&#34;Parameters&#34;].keys() -
-            self.config[&#34;Parameters&#34;].keys()
+                self._config_struct[&#34;Parameters&#34;].keys() -
+                self.config[&#34;Parameters&#34;].keys()
         )
         for key in missing_keys:
             self.update_config(
@@ -242,18 +248,18 @@ class Bottle:
             key: str = None,
             value: str = None,
             scope: str = None):
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Update keys for a bottle config.
 
         Parameters
         ----------
         key : str
-            the key namet
+            the key name
         value : str
-            the value to be sett
+            the value to be set
         scope : str (optional)
             where to look for the key if it is not the root (default is None)
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         if scope is not None:
             self.config[scope][key] = value
         else:
@@ -266,7 +272,88 @@ class Bottle:
 
     &#39;&#39;&#39;
     Bottle management
-    &#39;&#39;&#39;</code></pre>
+    &#39;&#39;&#39;
+    def rename(self, name: str):
+        if not check_special_chars(text=name):
+            return self.update_config(
+                key=&#34;Name&#34;,
+                value=name
+            )
+        raise ValueError(&#34;The bottle name cannot contain special characters.&#34;)
+
+    def set_runner(self):
+        # TODO
+        pass
+
+    def set_versioning(self):
+        # TODO
+        pass
+
+    def set_verbose(self, level: int):
+        self.update_config(
+            key=&#34;Verbose&#34;,
+            value=level
+        )
+        self.wineprefix.set_verbose(level)
+
+    def set_dxvk_hud(self, status: bool):
+        self.update_config(
+            key=&#34;dxvk_hud&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )
+
+    def set_sync(self, sync_type: int):
+        if sync_type not in self._supported_sync_types:
+            raise ValueError(f&#34;{sync_type} is not a valid sync type.&#34;)
+
+        self.update_config(
+            key=&#34;sync&#34;,
+            value=sync_type,
+            scope=&#34;Parameters&#34;
+        )
+
+    def set_aco_compiler(self, status: bool):
+        self.update_config(
+            key=&#34;aco_compiler&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )
+
+    def set_discrete_gpu(self, status: bool):
+        self.update_config(
+            key=&#34;discrete_gpu&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )
+
+    def set_virtual_desktop(self, status: bool):
+        self.update_config(
+            key=&#34;virtual_desktop&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )
+        if not status:
+            self.wineprefix.set_virtual_desktop(False)
+
+    def set_virtual_desktop_res(self, res: str):
+        self.set_virtual_desktop(True)
+        self.update_config(
+            key=&#34;virtual_desktop_res&#34;,
+            value=res,
+            scope=&#34;Parameters&#34;
+        )
+        self.wineprefix.set_virtual_desktop(
+            status=True,
+            res=res
+        )
+
+    def set_pulseaudio_latency(self, status: bool):
+        self.update_config(
+            key=&#34;pulseaudio_latency&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )</code></pre>
 </details>
 </section>
 <section>
@@ -294,14 +381,14 @@ class Bottle:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Bottle:
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     Create a new object of type Bottle with all the methods for its management.
 
     Parameters
     ----------
     path : str
         the bottle full path
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     config = {}
     _config_struct = {
         &#34;Name&#34;: &#34;&#34;,
@@ -350,6 +437,11 @@ class Bottle:
             &#34;Parameters&#34;: {}
         }
     ]
+    _supported_sync_types = {
+        0: &#34;wine&#34;,
+        1: &#34;esync&#34;,
+        2: &#34;fsync&#34;
+    }
     wineprefix = object
 
     def __init__(
@@ -387,14 +479,14 @@ class Bottle:
 
     @staticmethod
     def __validate(path):
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Check if essential paths exist in path.
 
         Parameters
         ----------
         path : str
             the bottle full path
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         promise = [&#34;dosdevices&#34;, &#34;drive_c&#34;]
 
         dirs = glob(f&#34;{path}/*&#34;)
@@ -402,12 +494,11 @@ class Bottle:
 
         for p in promise:
             if p not in dirs:
-                raise ValueError(
-                    &#34;Given path doesn&#39;t seem a valid Bottle path.&#34;)
+                raise ValueError(&#34;Given path doesn&#39;t seem a valid Bottle path.&#34;)
         return True
 
     def __load_config(self, path):
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Load config from path, if doesn&#39;t exists then create.
         Also update config structure if outdated.
 
@@ -415,7 +506,7 @@ class Bottle:
         ----------
         path : str
             the bottle full path
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         try:
             file = open(f&#34;{path}/bottle.json&#34;)
             self.config = json.load(file)
@@ -448,8 +539,8 @@ class Bottle:
             )
 
         missing_keys = (
-            self._config_struct[&#34;Parameters&#34;].keys() -
-            self.config[&#34;Parameters&#34;].keys()
+                self._config_struct[&#34;Parameters&#34;].keys() -
+                self.config[&#34;Parameters&#34;].keys()
         )
         for key in missing_keys:
             self.update_config(
@@ -499,18 +590,18 @@ class Bottle:
             key: str = None,
             value: str = None,
             scope: str = None):
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Update keys for a bottle config.
 
         Parameters
         ----------
         key : str
-            the key namet
+            the key name
         value : str
-            the value to be sett
+            the value to be set
         scope : str (optional)
             where to look for the key if it is not the root (default is None)
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         if scope is not None:
             self.config[scope][key] = value
         else:
@@ -523,7 +614,88 @@ class Bottle:
 
     &#39;&#39;&#39;
     Bottle management
-    &#39;&#39;&#39;</code></pre>
+    &#39;&#39;&#39;
+    def rename(self, name: str):
+        if not check_special_chars(text=name):
+            return self.update_config(
+                key=&#34;Name&#34;,
+                value=name
+            )
+        raise ValueError(&#34;The bottle name cannot contain special characters.&#34;)
+
+    def set_runner(self):
+        # TODO
+        pass
+
+    def set_versioning(self):
+        # TODO
+        pass
+
+    def set_verbose(self, level: int):
+        self.update_config(
+            key=&#34;Verbose&#34;,
+            value=level
+        )
+        self.wineprefix.set_verbose(level)
+
+    def set_dxvk_hud(self, status: bool):
+        self.update_config(
+            key=&#34;dxvk_hud&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )
+
+    def set_sync(self, sync_type: int):
+        if sync_type not in self._supported_sync_types:
+            raise ValueError(f&#34;{sync_type} is not a valid sync type.&#34;)
+
+        self.update_config(
+            key=&#34;sync&#34;,
+            value=sync_type,
+            scope=&#34;Parameters&#34;
+        )
+
+    def set_aco_compiler(self, status: bool):
+        self.update_config(
+            key=&#34;aco_compiler&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )
+
+    def set_discrete_gpu(self, status: bool):
+        self.update_config(
+            key=&#34;discrete_gpu&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )
+
+    def set_virtual_desktop(self, status: bool):
+        self.update_config(
+            key=&#34;virtual_desktop&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )
+        if not status:
+            self.wineprefix.set_virtual_desktop(False)
+
+    def set_virtual_desktop_res(self, res: str):
+        self.set_virtual_desktop(True)
+        self.update_config(
+            key=&#34;virtual_desktop_res&#34;,
+            value=res,
+            scope=&#34;Parameters&#34;
+        )
+        self.wineprefix.set_virtual_desktop(
+            status=True,
+            res=res
+        )
+
+    def set_pulseaudio_latency(self, status: bool):
+        self.update_config(
+            key=&#34;pulseaudio_latency&#34;,
+            value=status,
+            scope=&#34;Parameters&#34;
+        )</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -578,6 +750,198 @@ instance that has no instance attributes and cannot be given any.</p></div>
     return</code></pre>
 </details>
 </dd>
+<dt id="libbottles.bottle.Bottle.rename"><code class="name flex">
+<span>def <span class="ident">rename</span></span>(<span>self, name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rename(self, name: str):
+    if not check_special_chars(text=name):
+        return self.update_config(
+            key=&#34;Name&#34;,
+            value=name
+        )
+    raise ValueError(&#34;The bottle name cannot contain special characters.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_aco_compiler"><code class="name flex">
+<span>def <span class="ident">set_aco_compiler</span></span>(<span>self, status: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_aco_compiler(self, status: bool):
+    self.update_config(
+        key=&#34;aco_compiler&#34;,
+        value=status,
+        scope=&#34;Parameters&#34;
+    )</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_discrete_gpu"><code class="name flex">
+<span>def <span class="ident">set_discrete_gpu</span></span>(<span>self, status: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_discrete_gpu(self, status: bool):
+    self.update_config(
+        key=&#34;discrete_gpu&#34;,
+        value=status,
+        scope=&#34;Parameters&#34;
+    )</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_dxvk_hud"><code class="name flex">
+<span>def <span class="ident">set_dxvk_hud</span></span>(<span>self, status: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_dxvk_hud(self, status: bool):
+    self.update_config(
+        key=&#34;dxvk_hud&#34;,
+        value=status,
+        scope=&#34;Parameters&#34;
+    )</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_pulseaudio_latency"><code class="name flex">
+<span>def <span class="ident">set_pulseaudio_latency</span></span>(<span>self, status: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_pulseaudio_latency(self, status: bool):
+    self.update_config(
+        key=&#34;pulseaudio_latency&#34;,
+        value=status,
+        scope=&#34;Parameters&#34;
+    )</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_runner"><code class="name flex">
+<span>def <span class="ident">set_runner</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_runner(self):
+    # TODO
+    pass</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_sync"><code class="name flex">
+<span>def <span class="ident">set_sync</span></span>(<span>self, sync_type: int)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_sync(self, sync_type: int):
+    if sync_type not in self._supported_sync_types:
+        raise ValueError(f&#34;{sync_type} is not a valid sync type.&#34;)
+
+    self.update_config(
+        key=&#34;sync&#34;,
+        value=sync_type,
+        scope=&#34;Parameters&#34;
+    )</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_verbose"><code class="name flex">
+<span>def <span class="ident">set_verbose</span></span>(<span>self, level: int)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_verbose(self, level: int):
+    self.update_config(
+        key=&#34;Verbose&#34;,
+        value=level
+    )
+    self.wineprefix.set_verbose(level)</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_versioning"><code class="name flex">
+<span>def <span class="ident">set_versioning</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_versioning(self):
+    # TODO
+    pass</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_virtual_desktop"><code class="name flex">
+<span>def <span class="ident">set_virtual_desktop</span></span>(<span>self, status: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_virtual_desktop(self, status: bool):
+    self.update_config(
+        key=&#34;virtual_desktop&#34;,
+        value=status,
+        scope=&#34;Parameters&#34;
+    )
+    if not status:
+        self.wineprefix.set_virtual_desktop(False)</code></pre>
+</details>
+</dd>
+<dt id="libbottles.bottle.Bottle.set_virtual_desktop_res"><code class="name flex">
+<span>def <span class="ident">set_virtual_desktop_res</span></span>(<span>self, res: str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_virtual_desktop_res(self, res: str):
+    self.set_virtual_desktop(True)
+    self.update_config(
+        key=&#34;virtual_desktop_res&#34;,
+        value=res,
+        scope=&#34;Parameters&#34;
+    )
+    self.wineprefix.set_virtual_desktop(
+        status=True,
+        res=res
+    )</code></pre>
+</details>
+</dd>
 <dt id="libbottles.bottle.Bottle.update_config"><code class="name flex">
 <span>def <span class="ident">update_config</span></span>(<span>self, key: str = None, value: str = None, scope: str = None)</span>
 </code></dt>
@@ -586,9 +950,9 @@ instance that has no instance attributes and cannot be given any.</p></div>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
-<dd>the key namet</dd>
+<dd>the key name</dd>
 <dt><strong><code>value</code></strong> :&ensp;<code>str</code></dt>
-<dd>the value to be sett</dd>
+<dd>the value to be set</dd>
 <dt><strong><code>scope</code></strong> :&ensp;<code>str (optional)</code></dt>
 <dd>where to look for the key if it is not the root (default is None)</dd>
 </dl></div>
@@ -601,18 +965,18 @@ instance that has no instance attributes and cannot be given any.</p></div>
         key: str = None,
         value: str = None,
         scope: str = None):
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     Update keys for a bottle config.
 
     Parameters
     ----------
     key : str
-        the key namet
+        the key name
     value : str
-        the value to be sett
+        the value to be set
     scope : str (optional)
         where to look for the key if it is not the root (default is None)
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     if scope is not None:
         self.config[scope][key] = value
     else:
@@ -648,6 +1012,17 @@ instance that has no instance attributes and cannot be given any.</p></div>
 <li><code><a title="libbottles.bottle.Bottle.apply_config" href="#libbottles.bottle.Bottle.apply_config">apply_config</a></code></li>
 <li><code><a title="libbottles.bottle.Bottle.apply_environment" href="#libbottles.bottle.Bottle.apply_environment">apply_environment</a></code></li>
 <li><code><a title="libbottles.bottle.Bottle.config" href="#libbottles.bottle.Bottle.config">config</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.rename" href="#libbottles.bottle.Bottle.rename">rename</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_aco_compiler" href="#libbottles.bottle.Bottle.set_aco_compiler">set_aco_compiler</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_discrete_gpu" href="#libbottles.bottle.Bottle.set_discrete_gpu">set_discrete_gpu</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_dxvk_hud" href="#libbottles.bottle.Bottle.set_dxvk_hud">set_dxvk_hud</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_pulseaudio_latency" href="#libbottles.bottle.Bottle.set_pulseaudio_latency">set_pulseaudio_latency</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_runner" href="#libbottles.bottle.Bottle.set_runner">set_runner</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_sync" href="#libbottles.bottle.Bottle.set_sync">set_sync</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_verbose" href="#libbottles.bottle.Bottle.set_verbose">set_verbose</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_versioning" href="#libbottles.bottle.Bottle.set_versioning">set_versioning</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_virtual_desktop" href="#libbottles.bottle.Bottle.set_virtual_desktop">set_virtual_desktop</a></code></li>
+<li><code><a title="libbottles.bottle.Bottle.set_virtual_desktop_res" href="#libbottles.bottle.Bottle.set_virtual_desktop_res">set_virtual_desktop_res</a></code></li>
 <li><code><a title="libbottles.bottle.Bottle.update_config" href="#libbottles.bottle.Bottle.update_config">update_config</a></code></li>
 <li><code><a title="libbottles.bottle.Bottle.wineprefix" href="#libbottles.bottle.Bottle.wineprefix">wineprefix</a></code></li>
 </ul>

@@ -34,22 +34,24 @@ from libbottles import globals
 
 
 class Manager:
-
     _bottles = []
     _runners = []
     _dxvks = []
 
     @staticmethod
-    def update_bottles(paths: list = [globals.Paths.bottles]):
-        &#39;&#39;&#39;
+    def update_bottles(paths: list = None):
+        &#34;&#34;&#34;
         Update user bottles.
 
         Parameters
         ----------
         paths : list
             paths to search for bottles
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         results = []
+        if paths is None:
+            paths = [globals.Paths.bottles]
+
         for p in paths:
             results += glob(f&#34;{p}/*&#34;, recursive=True)
 
@@ -61,16 +63,19 @@ class Manager:
                 continue
 
     @staticmethod
-    def update_runners(paths: list = [globals.Paths.runners]):
-        &#39;&#39;&#39;
+    def update_runners(paths=None):
+        &#34;&#34;&#34;
         Update local runners.
 
         Parameters
         ----------
         paths : list
             paths to search for runners
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         results = []
+        if paths is None:
+            paths = [globals.Paths.runners]
+            
         for p in paths:
             results += glob(f&#34;{p}/*&#34;, recursive=True)
 
@@ -83,49 +88,49 @@ class Manager:
 
     @staticmethod
     def get_bottles():
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Get user bottles.
 
         Return
         ----------
         list:
             a list of Bottle objects
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         return Manager._bottles
 
     @staticmethod
     def get_runners():
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Get local runners.
 
         Return
         ----------
         list:
             a list of Runner objects
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         return Manager._runners
 
     @staticmethod
     def get_dxvks():
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Get local dxvks.
 
         Return
         ----------
         list:
             a list of Dxvk objects
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         return Manager._dxvks
 
     @staticmethod
     def create_bottle(
-        path: str, 
-        env: int, 
-        name: str, 
-        runner_path: str, 
-        versioning: bool = False, 
-        verbose: int = 0):
-        
+            path: str,
+            env: int,
+            name: str,
+            runner_path: str,
+            versioning: bool = False,
+            verbose: int = 0):
+
         bottle = Bottle(
             path=path,
             create=True,
@@ -159,22 +164,24 @@ class Manager:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Manager:
-
     _bottles = []
     _runners = []
     _dxvks = []
 
     @staticmethod
-    def update_bottles(paths: list = [globals.Paths.bottles]):
-        &#39;&#39;&#39;
+    def update_bottles(paths: list = None):
+        &#34;&#34;&#34;
         Update user bottles.
 
         Parameters
         ----------
         paths : list
             paths to search for bottles
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         results = []
+        if paths is None:
+            paths = [globals.Paths.bottles]
+
         for p in paths:
             results += glob(f&#34;{p}/*&#34;, recursive=True)
 
@@ -186,16 +193,19 @@ class Manager:
                 continue
 
     @staticmethod
-    def update_runners(paths: list = [globals.Paths.runners]):
-        &#39;&#39;&#39;
+    def update_runners(paths=None):
+        &#34;&#34;&#34;
         Update local runners.
 
         Parameters
         ----------
         paths : list
             paths to search for runners
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         results = []
+        if paths is None:
+            paths = [globals.Paths.runners]
+            
         for p in paths:
             results += glob(f&#34;{p}/*&#34;, recursive=True)
 
@@ -208,49 +218,49 @@ class Manager:
 
     @staticmethod
     def get_bottles():
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Get user bottles.
 
         Return
         ----------
         list:
             a list of Bottle objects
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         return Manager._bottles
 
     @staticmethod
     def get_runners():
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Get local runners.
 
         Return
         ----------
         list:
             a list of Runner objects
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         return Manager._runners
 
     @staticmethod
     def get_dxvks():
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         Get local dxvks.
 
         Return
         ----------
         list:
             a list of Dxvk objects
-        &#39;&#39;&#39;
+        &#34;&#34;&#34;
         return Manager._dxvks
 
     @staticmethod
     def create_bottle(
-        path: str, 
-        env: int, 
-        name: str, 
-        runner_path: str, 
-        versioning: bool = False, 
-        verbose: int = 0):
-        
+            path: str,
+            env: int,
+            name: str,
+            runner_path: str,
+            versioning: bool = False,
+            verbose: int = 0):
+
         bottle = Bottle(
             path=path,
             create=True,
@@ -277,13 +287,13 @@ class Manager:
 </summary>
 <pre><code class="python">@staticmethod
 def create_bottle(
-    path: str, 
-    env: int, 
-    name: str, 
-    runner_path: str, 
-    versioning: bool = False, 
-    verbose: int = 0):
-    
+        path: str,
+        env: int,
+        name: str,
+        runner_path: str,
+        versioning: bool = False,
+        verbose: int = 0):
+
     bottle = Bottle(
         path=path,
         create=True,
@@ -312,14 +322,14 @@ a list of Bottle objects</p></div>
 </summary>
 <pre><code class="python">@staticmethod
 def get_bottles():
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     Get user bottles.
 
     Return
     ----------
     list:
         a list of Bottle objects
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     return Manager._bottles</code></pre>
 </details>
 </dd>
@@ -337,14 +347,14 @@ a list of Dxvk objects</p></div>
 </summary>
 <pre><code class="python">@staticmethod
 def get_dxvks():
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     Get local dxvks.
 
     Return
     ----------
     list:
         a list of Dxvk objects
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     return Manager._dxvks</code></pre>
 </details>
 </dd>
@@ -362,19 +372,19 @@ a list of Runner objects</p></div>
 </summary>
 <pre><code class="python">@staticmethod
 def get_runners():
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     Get local runners.
 
     Return
     ----------
     list:
         a list of Runner objects
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     return Manager._runners</code></pre>
 </details>
 </dd>
 <dt id="libbottles.manager.Manager.update_bottles"><code class="name flex">
-<span>def <span class="ident">update_bottles</span></span>(<span>paths: list = ['/home/mirko/.local/share/bottles/bottles'])</span>
+<span>def <span class="ident">update_bottles</span></span>(<span>paths: list = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Update user bottles.</p>
@@ -388,16 +398,19 @@ def get_runners():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def update_bottles(paths: list = [globals.Paths.bottles]):
-    &#39;&#39;&#39;
+def update_bottles(paths: list = None):
+    &#34;&#34;&#34;
     Update user bottles.
 
     Parameters
     ----------
     paths : list
         paths to search for bottles
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     results = []
+    if paths is None:
+        paths = [globals.Paths.bottles]
+
     for p in paths:
         results += glob(f&#34;{p}/*&#34;, recursive=True)
 
@@ -410,7 +423,7 @@ def update_bottles(paths: list = [globals.Paths.bottles]):
 </details>
 </dd>
 <dt id="libbottles.manager.Manager.update_runners"><code class="name flex">
-<span>def <span class="ident">update_runners</span></span>(<span>paths: list = ['/home/mirko/.local/share/bottles/components/runners'])</span>
+<span>def <span class="ident">update_runners</span></span>(<span>paths=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Update local runners.</p>
@@ -424,16 +437,19 @@ def update_bottles(paths: list = [globals.Paths.bottles]):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def update_runners(paths: list = [globals.Paths.runners]):
-    &#39;&#39;&#39;
+def update_runners(paths=None):
+    &#34;&#34;&#34;
     Update local runners.
 
     Parameters
     ----------
     paths : list
         paths to search for runners
-    &#39;&#39;&#39;
+    &#34;&#34;&#34;
     results = []
+    if paths is None:
+        paths = [globals.Paths.runners]
+        
     for p in paths:
         results += glob(f&#34;{p}/*&#34;, recursive=True)
 
